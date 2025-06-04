@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bistro Elite - Premium Dining</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            color: #0f0f0f;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-bottom: 1px solid #e0e0e0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f0f0f;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+            z-index: 1001;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu a {
+            color: #606060;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .nav-menu a:hover {
+            color: #0f0f0f;
+            background: #f8f8f8;
+        }
+
+        .nav-menu a.active {
+            color: #0f0f0f;
+            background: #f0f0f0;
+            font-weight: 600;
+        }
+
+        .cart-button {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1001;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .cart-button:hover {
+            background: #cc0000;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #0f0f0f;
+            color: #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: #0f0f0f;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 1px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Mobile Navigation */
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: #ffffff;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                padding-top: 2rem;
+                gap: 1rem;
+                transition: left 0.3s ease;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu a {
+                font-size: 1.1rem;
+                padding: 1rem 2rem;
+                width: 80%;
+                text-align: center;
+                border: 1px solid #e0e0e0;
+                margin: 0.25rem 0;
+            }
+            
+            .nav-container {
+                padding: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 0.75rem 1rem;
+            }
+            
+            .logo {
+                font-size: 1.4rem;
+            }
+            
+            .cart-button {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+            background: #f8f8f8;
+            color: #0f0f0f;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            margin-top: 70px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            line-height: 1.2;
+            color: #0f0f0f;
+        }
+
+        .hero .highlight {
+            font-weight: 700;
+            color: #0f0f0f;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #606060;
+            margin-bottom: 2.5rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-button {
+            background: #0f0f0f;
+            color: #ffffff;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero-button:hover {
+            background: #2a2a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(15, 15, 15, 0.2);
+        }
+
+        /* Main Content */
+        .main-content {
+            background: #ffffff;
+            padding: 4rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #0f0f0f;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #606060;
+            font-weight: 400;
+        }
+
+        /* Menu Grid Layout */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .menu-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            padding: 0.75rem;
+            background: #f8f8f8;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f0f0f;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-description {
+            color: #606060;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .menu-items-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .menu-item {
+            background: #f8f8f8;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border: 1px solid #e0e0e0;
+        }
+
+        .menu-item:hover {
+            background: #f0f0f0;
+            border-color: #d0d0d0;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .item-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0f0f0f;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f0f0f;
+        }
+
+        .item-description {
+            color: #606060;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            font-size: 0.9rem;
+        }
+
+        .item-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border-radius: 6px;
+            border: 1px solid #d0d0d0;
+            overflow: hidden;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #606060;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+
+        .qty-btn:hover {
+            background: #f0f0f0;
+            color: #0f0f0f;
+        }
+
+        .qty-display {
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            color: #0f0f0f;
+            background: #f8f8f8;
+            min-width: 50px;
+            text-align: center;
+            border-left: 1px solid #d0d0d0;
+            border-right: 1px solid #d0d0d0;
+        }
+
+        .add-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .add-btn:hover {
+            background: #cc0000;
+            transform: translateY(-1px);
+        }
+
+        /* Cart Modal */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .cart-content {
+            background: #ffffff;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid #e0e0e0;
+        }
+
+        .cart-header {
+            background: #ffffff;
+            color: #0f0f0f;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .cart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #0f0f0f;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: #f0f0f0;
+        }
+
+        .cart-items {
+            padding: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #e0e0e0;
+            gap: 1rem;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-image {
+            width: 50px;
+            height: 50px;
+            background: #f8f8f8;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-info h4 {
+            font-weight: 600;
+            color: #0f0f0f;
+            margin-bottom: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .cart-item-info p {
+            color: #606060;
+            font-size: 0.85rem;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cart-item-price {
+            font-weight: 600;
+            color: #0f0f0f;
+            font-size: 0.9rem;
+        }
+
+        .remove-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.8rem;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-btn:hover {
+            background: #cc0000;
+        }
+
+        .cart-footer {
+            background: #f8f8f8;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .cart-total {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f0f0f;
+            margin-bottom: 1rem;
+        }
+
+        .cart-instruction {
+            color: #606060;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #f8f8f8;
+            color: #0f0f0f;
+            padding: 3rem 0;
+            margin-top: 3rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .footer h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info {
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            color: #606060;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            max-width: 400px;
+            margin: 0 auto;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .form-input {
+            padding: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #ffffff;
+            color: #0f0f0f;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: #606060;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #ff0000;
+            background: #ffffff;
+        }
+
+        .submit-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            background: #cc0000;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #ff0000;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(255, 0, 0, 0.3);
+            z-index: 1500;
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .notification.show {
+            transform: translateY(0);
+        }
+
+        .notification-icon {
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .item-controls {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .quantity-control {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .menu-card {
+                padding: 1.5rem;
+            }
+
+            .cart-content {
+                width: 95%;
+            }
+
+            .cart-header,
+            .cart-items,
+            .cart-footer {
+                padding: 1rem;
+            }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f8f8f8;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e0e0e0;
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">Bistro Elite</a>
+            
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="active" onclick="closeMobileMenu()">Home</a></li>
+                <li><a href="#menu" onclick="closeMobileMenu()">Menu</a></li>
+                <li><a href="#contact" onclick="closeMobileMenu()">Contact</a></li>
+            </ul>
+            
+            <button class="cart-button" onclick="toggleCart()">
+                Cart
+                <span class="cart-badge" id="cartBadge">0</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Culinary <span class="highlight">Excellence</span></h1>
+            <p>Experience extraordinary flavors crafted with passion, precision, and the finest ingredients from around the world</p>
+            <button class="hero-button" onclick="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})">
+                View Menu
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content" id="menu">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Menu</h2>
+                <p class="section-subtitle">Carefully crafted dishes using the finest ingredients</p>
+            </div>
+
+            <div class="menu-grid">
+                <!-- Appetizers -->
+                <div class="menu-card">
+                    <div class="card-header">
+                        <div class="card-icon">🥗</div>
+                        <div>
+                            <h3 class="card-title">Appetizers</h3>
+                            <p class="card-description">Perfect starters to begin your meal</p>
+                        </div>
+                    </div>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Truffle Arancini</h4>
+                                    <p class="item-description">Crispy risotto balls with black truffle and aged parmesan</p>
+                                </div>
+                                <div class="item-price">85 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('app1', -1)">−</button>
+                                    <span class="qty-display" id="app1-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('app1', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(1, 'Truffle Arancini', 85, 'app1')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Seared Scallops</h4>
+                                    <p class="item-description">Pan-seared scallops with cauliflower purée and pancetta</p>
+                                </div>
+                                <div class="item-price">120 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('app2', -1)">−</button>
+                                    <span class="qty-display" id="app2-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('app2', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(2, 'Seared Scallops', 120, 'app2')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Burrata Caprese</h4>
+                                    <p class="item-description">Fresh burrata with heirloom tomatoes and basil oil</p>
+                                </div>
+                                <div class="item-price">75 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('app3', -1)">−</button>
+                                    <span class="qty-display" id="app3-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('app3', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(3, 'Burrata Caprese', 75, 'app3')">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Courses -->
+                <div class="menu-card">
+                    <div class="card-header">
+                        <div class="card-icon">🥩</div>
+                        <div>
+                            <h3 class="card-title">Main Courses</h3>
+                            <p class="card-description">Signature dishes crafted to perfection</p>
+                        </div>
+                    </div>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Wagyu Beef Tenderloin</h4>
+                                    <p class="item-description">Premium wagyu with roasted vegetables and red wine jus</p>
+                                </div>
+                                <div class="item-price">380 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('main1', -1)">−</button>
+                                    <span class="qty-display" id="main1-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('main1', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(4, 'Wagyu Beef Tenderloin', 380, 'main1')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Chilean Sea Bass</h4>
+                                    <p class="item-description">Miso-glazed sea bass with Asian vegetables and ginger</p>
+                                </div>
+                                <div class="item-price">280 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('main2', -1)">−</button>
+                                    <span class="qty-display" id="main2-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('main2', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(5, 'Chilean Sea Bass', 280, 'main2')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Duck Confit</h4>
+                                    <p class="item-description">Slow-cooked duck leg with cherry gastrique and potato gratin</p>
+                                </div>
+                                <div class="item-price">220 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('main3', -1)">−</button>
+                                    <span class="qty-display" id="main3-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('main3', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(6, 'Duck Confit', 220, 'main3')">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pasta & Risotto -->
+                <div class="menu-card">
+                    <div class="card-header">
+                        <div class="card-icon">🍝</div>
+                        <div>
+                            <h3 class="card-title">Pasta & Risotto</h3>
+                            <p class="card-description">Handcrafted Italian classics</p>
+                        </div>
+                    </div>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Lobster Ravioli</h4>
+                                    <p class="item-description">House-made ravioli with lobster and saffron cream sauce</p>
+                                </div>
+                                <div class="item-price">180 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('pasta1', -1)">−</button>
+                                    <span class="qty-display" id="pasta1-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('pasta1', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(7, 'Lobster Ravioli', 180, 'pasta1')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Truffle Risotto</h4>
+                                    <p class="item-description">Creamy arborio rice with wild mushrooms and black truffle</p>
+                                </div>
+                                <div class="item-price">160 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('pasta2', -1)">−</button>
+                                    <span class="qty-display" id="pasta2-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('pasta2', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(8, 'Truffle Risotto', 160, 'pasta2')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Osso Buco Pappardelle</h4>
+                                    <p class="item-description">Slow-braised veal shank with wide ribbon pasta</p>
+                                </div>
+                                <div class="item-price">140 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('pasta3', -1)">−</button>
+                                    <span class="qty-display" id="pasta3-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('pasta3', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(9, 'Osso Buco Pappardelle', 140, 'pasta3')">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desserts -->
+                <div class="menu-card">
+                    <div class="card-header">
+                        <div class="card-icon">🍰</div>
+                        <div>
+                            <h3 class="card-title">Desserts</h3>
+                            <p class="card-description">Sweet endings to your perfect meal</p>
+                        </div>
+                    </div>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Chocolate Soufflé</h4>
+                                    <p class="item-description">Warm chocolate soufflé with vanilla bean ice cream</p>
+                                </div>
+                                <div class="item-price">70 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('dess1', -1)">−</button>
+                                    <span class="qty-display" id="dess1-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('dess1', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(10, 'Chocolate Soufflé', 70, 'dess1')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Lemon Tart</h4>
+                                    <p class="item-description">Classic lemon tart with meringue and berry compote</p>
+                                </div>
+                                <div class="item-price">60 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('dess2', -1)">−</button>
+                                    <span class="qty-display" id="dess2-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('dess2', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(11, 'Lemon Tart', 60, 'dess2')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Panna Cotta</h4>
+                                    <p class="item-description">Vanilla panna cotta with seasonal fruit and honey tuile</p>
+                                </div>
+                                <div class="item-price">55 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('dess3', -1)">−</button>
+                                    <span class="qty-display" id="dess3-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('dess3', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(12, 'Panna Cotta', 55, 'dess3')">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Beverages -->
+                <div class="menu-card">
+                    <div class="card-header">
+                        <div class="card-icon">🍷</div>
+                        <div>
+                            <h3 class="card-title">Beverages</h3>
+                            <p class="card-description">Curated selection of fine drinks</p>
+                        </div>
+                    </div>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Bordeaux Reserve</h4>
+                                    <p class="item-description">Premium French red wine, aged to perfection</p>
+                                </div>
+                                <div class="item-price">150 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('bev1', -1)">−</button>
+                                    <span class="qty-display" id="bev1-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('bev1', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(13, 'Bordeaux Reserve', 150, 'bev1')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Artisan Coffee</h4>
+                                    <p class="item-description">Single-origin coffee beans, expertly roasted</p>
+                                </div>
+                                <div class="item-price">35 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('bev2', -1)">−</button>
+                                    <span class="qty-display" id="bev2-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('bev2', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(14, 'Artisan Coffee', 35, 'bev2')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Sparkling Water</h4>
+                                    <p class="item-description">Premium mineral water with natural bubbles</p>
+                                </div>
+                                <div class="item-price">25 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('bev3', -1)">−</button>
+                                    <span class="qty-display" id="bev3-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('bev3', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(15, 'Sparkling Water', 25, 'bev3')">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chef's Specials -->
+                <div class="menu-card">
+                    <div class="card-header">
+                        <div class="card-icon">⭐</div>
+                        <div>
+                            <h3 class="card-title">Chef's Specials</h3>
+                            <p class="card-description">Exclusive creations by our master chef</p>
+                        </div>
+                    </div>
+                    <div class="menu-items-grid">
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Tasting Menu</h4>
+                                    <p class="item-description">7-course culinary journey featuring seasonal ingredients</p>
+                                </div>
+                                <div class="item-price">450 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('special1', -1)">−</button>
+                                    <span class="qty-display" id="special1-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('special1', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(16, 'Tasting Menu', 450, 'special1')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Molecular Gastronomy</h4>
+                                    <p class="item-description">Innovative dish using modern culinary techniques</p>
+                                </div>
+                                <div class="item-price">320 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('special2', -1)">−</button>
+                                    <span class="qty-display" id="special2-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('special2', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(17, 'Molecular Gastronomy', 320, 'special2')">Add</button>
+                            </div>
+                        </div>
+                        <div class="menu-item">
+                            <div class="item-header">
+                                <div>
+                                    <h4 class="item-name">Seasonal Surprise</h4>
+                                    <p class="item-description">Chef's daily creation based on market fresh ingredients</p>
+                                </div>
+                                <div class="item-price">280 DH</div>
+                            </div>
+                            <div class="item-controls">
+                                <div class="quantity-control">
+                                    <button class="qty-btn" onclick="changeQuantity('special3', -1)">−</button>
+                                    <span class="qty-display" id="special3-qty">1</span>
+                                    <button class="qty-btn" onclick="changeQuantity('special3', 1)">+</button>
+                                </div>
+                                <button class="add-btn" onclick="addToCart(18, 'Seasonal Surprise', 280, 'special3')">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2 class="cart-title">Your Order</h2>
+                <button class="close-btn" onclick="toggleCart()">&times;</button>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <p style="text-align: center; color: #606060; padding: 2rem;">Your cart is empty</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">Total: <span id="cartTotal">0</span> DH</div>
+                <div class="cart-instruction">
+                    <p>Please show the server your cart</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">✓</div>
+        <span id="notificationText">Item added to cart</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <div class="footer-content">
+            <h2>Contact Us</h2>
+            <div class="contact-info">
+                <p>📍 Avenue Mohammed V, Casablanca, Morocco</p>
+                <p>📞 +212 522 987 654</p>
+                <p>✉️ reservations@bistroelit.ma</p>
+                <p>🕒 Tuesday - Sunday: 6:00 PM - 11:00 PM</p>
+            </div>
+            <form class="contact-form" onsubmit="sendMessage(event)">
+                <input type="tel" class="form-input" id="phoneInput" placeholder="Your Phone Number" required>
+                <textarea class="form-input" id="messageInput" placeholder="Reservation details or special requests" rows="4" required></textarea>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+
+        function changeQuantity(id, change) {
+            const qtyElement = document.getElementById(`${id}-qty`);
+            let currentQty = parseInt(qtyElement.textContent);
+            currentQty = Math.max(1, currentQty + change);
+            qtyElement.textContent = currentQty;
+        }
+
+        function addToCart(id, name, price, qtyId) {
+            const qtyElement = document.getElementById(`${qtyId}-qty`);
+            const quantity = parseInt(qtyElement.textContent);
+            
+            const existingItem = cart.find(item => item.id === id);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({ id, name, price, quantity });
+            }
+            
+            updateCartDisplay();
+            qtyElement.textContent = '1';
+            showNotification(`${name} added to cart`);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartBadge = document.getElementById('cartBadge');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalItems;
+            cartBadge.style.display = totalItems > 0 ? 'flex' : 'none';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #606060; padding: 2rem;">Your cart is empty</p>';
+            } else {
+                cartItems.innerHTML = cart.map(item => {
+                    const itemIcon = getItemIcon(item.name);
+                    return `
+                        <div class="cart-item">
+                            <div class="cart-item-image">${itemIcon}</div>
+                            <div class="cart-item-info">
+                                <h4>${item.name}</h4>
+                                <p>Quantity: ${item.quantity}</p>
+                            </div>
+                            <div class="cart-item-actions">
+                                <span class="cart-item-price">${item.price * item.quantity} DH</span>
+                                <button class="remove-btn" onclick="removeFromCart(${item.id})">×</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartTotal.textContent = total;
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            setTimeout(() => notification.classList.remove('show'), 3000);
+        }
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const phone = document.getElementById('phoneInput').value;
+            const message = document.getElementById('messageInput').value;
+            
+            const whatsappNumber = '+212770264606';
+            const encodedMessage = encodeURIComponent(`Reservation Request:\n\nPhone: ${phone}\n\nDetails: ${message}`);
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+            
+            window.open(whatsappURL, '_blank');
+            
+            document.getElementById('phoneInput').value = '';
+            document.getElementById('messageInput').value = '';
+        }
+
+        // Close cart when clicking outside
+        document.getElementById('cartModal').addEventListener('click', function(e) {
+            if (e.target === this) toggleCart();
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.15)';
+            } else {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            }
+        });
+
+        // Initialize
+        updateCartDisplay();
+
+        function toggleMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            navMenu.classList.toggle('active');
+            toggle.classList.toggle('active');
+        }
+
+        function closeMobileMenu() {
+            const navMenu = document.getElementById('navMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            
+            navMenu.classList.remove('active');
+            toggle.classList.remove('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const navMenu = document.getElementById('navMenu');
+            const toggle = document.querySelector('.mobile-menu-toggle');
+            const navbar = document.querySelector('.navbar');
+            
+            if (!navbar.contains(e.target) && navMenu.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+
+        function getItemIcon(itemName) {
+            const icons = {
+                'Truffle Arancini': '🍚',
+                'Seared Scallops': '🦪',
+                'Burrata Caprese': '🧀',
+                'Wagyu Beef Tenderloin': '🥩',
+                'Chilean Sea Bass': '🐟',
+                'Duck Confit': '🦆',
+                'Lobster Ravioli': '🦞',
+                'Truffle Risotto': '🍄',
+                'Osso Buco Pappardelle': '🍝',
+                'Chocolate Soufflé': '🍫',
+                'Lemon Tart': '🍋',
+                'Panna Cotta': '🍮',
+                'Bordeaux Reserve': '🍷',
+                'Artisan Coffee': '☕',
+                'Sparkling Water': '💧',
+                'Tasting Menu': '⭐',
+                'Molecular Gastronomy': '🧪',
+                'Seasonal Surprise': '🌟'
+            };
+            return icons[itemName] || '🍽️';
+        }
+    </script>
+</body>
+</html>
